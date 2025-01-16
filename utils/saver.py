@@ -99,21 +99,27 @@ class Saver():
     # save model
     def write_model(self, ep, total_it, model, best=False):
         #assert False
-              
+        
+        mode_save_path = None
         if best:
             mode_save_path ='%s/%s.pth' % (self.model_dir, 'Best_RegFusion')
+            model.save(mode_save_path, ep, total_it)
         else:
             if ep % self.model_save_freq == 0:
                 if ep > total_it*0.9:
-                    model.save('{}/{}_{}.pth'.format(self.model_dir, 'RegFusion',ep), ep, total_it)
-                print('--- save the model @ ep %d ---' % (ep))
-                mode_save_path = '%s/%s.pth' % (self.model_dir, 'RegFusion')
+                    print('--- save the model @ ep %d ---' % (ep))
+                    mode_save_path = '{}/{}_{}.pth'.format(self.model_dir, 'RegFusion',ep)
+                else:
+                    print('--- save the model @ ep %d ---' % (ep))
+                    mode_save_path = '%s/%s.pth' % (self.model_dir, 'RegFusion')
+                model.save(mode_save_path, ep, total_it)
             elif ep == total_it or ep == total_it-1:
                 print('--- save the model @ ep %d ---' % (ep))
                 mode_save_path = '%s/%s.pth' % (self.model_dir, 'RegFusion')
+                model.save(mode_save_path, ep, total_it)
             elif ep == -1:
                 print('--- save the model @ ep %d ---' % (ep))
                 mode_save_path = '%s/%s.pth' % (self.model_dir, 'RegFusion')
-        model.save(mode_save_path, ep, total_it)
+                model.save(mode_save_path, ep, total_it)
             
         return mode_save_path

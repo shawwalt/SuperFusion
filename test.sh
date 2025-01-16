@@ -1,0 +1,1 @@
+python test.py --mode=Fusion --dataset_name=MSRS 

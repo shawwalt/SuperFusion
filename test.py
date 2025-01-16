@@ -6,14 +6,15 @@ from dataset import TestData, imsave
 from time import time
 from tqdm import tqdm
 
-os.environ['CUDA_VISIBLE_DEVICES']='2'
+os.environ['CUDA_VISIBLE_DEVICES']='0'
 parser = argparse.ArgumentParser()
 parser.add_argument('--mode', type=str, default='Reg&Fusion', help='Reg for only image registration, Fusion for only image fusion, Reg&Fusion for image registration and fusion')
 parser.add_argument('--dataset_name', type=str, default='MSRS', help='MSRS or RoadScene')
 
 if __name__ == '__main__':
     opts = parser.parse_args()
-    img_path = os.path.join('./dataset/test', opts.dataset_name)
+    opts.mode = 'Fusion'
+    img_path = os.path.join('./dataset/MSRS/test')
     if opts.mode == 'Fusion':
         ir_path = os.path.join(img_path, 'ir')
     else:
@@ -35,7 +36,7 @@ if __name__ == '__main__':
         start = time()
         with torch.no_grad():
             if opts.mode == 'Reg':
-                results = model.registration_forward(ir_tenor, vi_tensor)
+                results = model.registration_forward(*ir_tenor, *vi_tensor)
             elif opts.mode == 'Fusion':
                 results = model.fusion_forward(ir_tenor, vi_tensor)
             else:

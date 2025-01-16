@@ -1,5 +1,5 @@
 import os
-os.environ['CUDA_VISIBLE_DEVICES'] = '2'
+os.environ['CUDA_VISIBLE_DEVICES'] = '1'
 import torch
 from options import TrainOptions
 from dataset import *
@@ -244,10 +244,10 @@ def main_RF(opts):
             model.update_lr()
 
         # save result image
-        saver.write_img(ep, model)
+        saver.write_img(ep+1, model)
 
         # Save network weights
-        saver.write_model(ep, opts.n_ep, model)
+        saver.write_model(ep+1, opts.n_ep, model)
 
     return
 

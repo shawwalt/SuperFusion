@@ -13,7 +13,9 @@ IRNNBackward = open(os.path.abspath(__file__).replace('irnn.py','')+'IRNN_Backwa
 
 @cupy.memoize(for_each_device=True)
 def cunnex(strFunction):
-	return cupy.cuda.compile_with_cache(globals()[strFunction]).get_function(strFunction)
+	# return cupy.cuda.compile_with_cache(globals()[strFunction]).get_function(strFunction)
+	return cupy.RawKernel(globals()[strFunction], strFunction)
+
 # end
 
 class irnn(torch.autograd.Function):

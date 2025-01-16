@@ -1,0 +1,1 @@
+nohup python train.py > logs/log_RF.txt 2>&1 &
